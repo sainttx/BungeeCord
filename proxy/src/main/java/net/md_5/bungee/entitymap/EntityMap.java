@@ -25,12 +25,10 @@ public abstract class EntityMap
     {
         switch ( version )
         {
-            case ProtocolConstants.MINECRAFT_1_7_2:
-                return EntityMap_1_7_2.INSTANCE;
-            case ProtocolConstants.MINECRAFT_1_7_6:
-                return EntityMap_1_7_6.INSTANCE;
             case ProtocolConstants.MINECRAFT_1_8:
                 return EntityMap_1_8.INSTANCE;
+            case ProtocolConstants.MINECRAFT_1_9:
+                return EntityMap_1_9.INSTANCE;
         }
         throw new RuntimeException( "Version " + version + " has no entity map" );
     }
@@ -88,7 +86,7 @@ public abstract class EntityMap
         int readIdLength = packet.readerIndex() - offset;
         if ( readId == oldId || readId == newId )
         {
-            ByteBuf data = packet.slice().copy();
+            ByteBuf data = packet.copy();
             packet.readerIndex( offset );
             packet.writerIndex( offset );
             DefinedPacket.writeVarInt( readId == oldId ? newId : oldId, packet );
